@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-const TRAINER_ID = localStorage.getItem("trainer_id");
 
 type Row = {
   id: string;
@@ -36,20 +35,26 @@ function csvEscape(v: any) {
 }
 
 export default function ReportsPage() {
+  const [trainerId, setTrainerId] = useState<string | null>(null);
   const [days, setDays] = useState(30);
   const [items, setItems] = useState<Row[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setTrainerId(localStorage.getItem("trainer_id"));
+  }, []);
+
   async function load() {
+
     setError(null);
     if (!API) return setError("NEXT_PUBLIC_API_BASE_URL não configurada.");
-    if (!TRAINER_ID) return setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
+    if (!trainerId) return setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
 
     setLoading(true);
     try {
       const res = await fetch(
-        `${API}/api/reports/trainees/summary?trainerId=${TRAINER_ID}&days=${days}`
+        `${API}/api/reports/trainees/summary?trainerId=${trainerId}&days=${days}`
       );
       const json = await res.json().catch(() => null);
       if (!res.ok) {
