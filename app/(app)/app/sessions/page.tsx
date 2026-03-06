@@ -100,7 +100,7 @@ export default async function SessionsPage()
       </div>
 
       <div className="grid gap-3">
-        {data.items.map((s) => (
+        {data.items.map((s: Session) => (
           <Link
             key={s.id}
             href={`/app/sessions/${s.code}`}
@@ -130,4 +130,14 @@ export default async function SessionsPage()
       </div>
     </div>
   );
+}
+
+type Session = {
+  id: string
+  code: string
+  name?: string
+  createdAt: string
+  refereeName?: string | null
+  trainerName?: string | null
+  isActive: boolean
 }
