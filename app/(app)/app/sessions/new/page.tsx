@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-const TRAINER_ID = localStorage.getItem("trainer_id");
 
 type Trainee = {
   id: string;
@@ -23,6 +22,12 @@ export default function NewSessionPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [trainerId, setTrainerId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setTrainerId(localStorage.getItem("trainer_id"));
+  }, []);
+
 
   async function loadTrainees() {
     setError(null);
@@ -31,7 +36,7 @@ export default function NewSessionPage() {
       setError("NEXT_PUBLIC_API_BASE_URL não configurada.");
       return;
     }
-    if (!TRAINER_ID) {
+    if (!trainerId) {
       setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
       return;
     }
@@ -39,7 +44,7 @@ export default function NewSessionPage() {
     setLoadingTrainees(true);
     try {
       const res = await fetch(
-        `${API}/api/trainees?trainerId=${TRAINER_ID}&isActive=true`,
+        `${API}/api/trainees?trainerId=${trainerId}&isActive=true`,
         { method: "GET" }
       );
 
@@ -88,7 +93,7 @@ export default function NewSessionPage() {
       setError("NEXT_PUBLIC_API_BASE_URL não configurada.");
       return;
     }
-    if (!TRAINER_ID) {
+    if (!trainerId) {
       setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
       return;
     }
@@ -105,7 +110,7 @@ export default function NewSessionPage() {
         body: JSON.stringify({
           name: name.trim() || null,
           refereeId,
-          createdByTrainerId: TRAINER_ID,
+          createdByTrainerId: trainerId,
         }),
       });
 
