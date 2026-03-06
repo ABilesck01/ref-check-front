@@ -36,7 +36,7 @@ export default function NewTraineePage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          createdByTrainerId : TRAINER_ID?.trim(),
+          createdByTrainerId : trainerId?.trim(),
           name: name.trim(),
           email: email.trim() || null,
         }),
