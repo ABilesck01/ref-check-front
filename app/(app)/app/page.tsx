@@ -41,19 +41,21 @@ export default function DashboardPage() {
     setTrainerId(localStorage.getItem("trainer_id"));
   }, []);
 
-  async function load() {
+  async function load(currentTrainerId?: string | null) {
+    const id = currentTrainerId ?? trainerId;
     setError(null);
 
     if (!API) {
       setError("NEXT_PUBLIC_API_BASE_URL não configurada.");
       return;
     }
-    if (!trainerId) {
+    if (!id) {
       setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
       return;
     }
 
     setLoading(true);
+
     try {
       const res = await fetch(`${API}/api/dashboard/summary?trainerId=${trainerId}&days=30`);
       const json = await res.json().catch(() => null);
@@ -72,8 +74,10 @@ export default function DashboardPage() {
   }
 
   useEffect(() => {
-    load();
-  }, []);
+    if (trainerId) {
+      load(trainerId);
+    }
+  }, [trainerId]);
 
   const k = data?.kpis;
 
@@ -82,7 +86,7 @@ export default function DashboardPage() {
       <div className="flex items-end justify-between">
         <h1 className="text-2xl font-semibold text-[color:var(--neutral)]">Dashboard</h1>
         <button
-          onClick={load}
+          onClick={() => load()}
           disabled={loading}
           className="rounded-md px-3 py-2 text-sm text-white bg-[color:var(--primary)] hover:opacity-90 disabled:opacity-60"
         >

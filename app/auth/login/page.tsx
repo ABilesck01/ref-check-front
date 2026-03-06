@@ -65,8 +65,19 @@ export default function LoginPage() {
       localStorage.setItem("refresh_token", json.session.refresh_token ?? "");
       localStorage.setItem("expires_at", String(json.session.expires_at ?? ""));
 
-      const trainerId = getTrainerIdFromAccessToken(json.session.access_token);
-      if (trainerId) localStorage.setItem("trainer_id", trainerId);
+      const userId =
+        typeof json.user === "object" &&
+        json.user !== null &&
+        "id" in json.user &&
+        typeof (json.user as { id?: unknown }).id === "string"
+          ? (json.user as { id: string }).id
+          : getTrainerIdFromAccessToken(json.session.access_token);
+
+      if (userId) {
+        localStorage.setItem("trainer_id", userId);
+      } else {
+        console.error("Não foi possível obter o trainer_id do login.");
+      }
 
       router.push("/app");
     } catch {
