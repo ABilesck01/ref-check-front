@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function NewTraineePage() {
   const router = useRouter();
-  const TRAINER_ID = localStorage.getItem("trainer_id");
+  const [trainerId, setTrainerId] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+      setTrainerId(localStorage.getItem("trainer_id"));
+    }, []);
 
   async function onCreate() {
     setError(null);
