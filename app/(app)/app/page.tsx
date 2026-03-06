@@ -1,35 +1,9 @@
-// import { sessions, situations } from "@/app/data/seed";
-
-// export default function DashboardPage() {
-//   return (
-//     <div className="space-y-6">
-//       <h1 className="text-2xl font-semibold text-[color:var(--neutral)]">Dashboard</h1>
-
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-//         <Card title="Sessões" value={sessions.length} />
-//         <Card title="Situações" value={situations.length} />
-//         <Card title="Última sessão" value={sessions[0]?.code ?? "-"} />
-//       </div>
-//     </div>
-//   );
-// }
-
-// function Card({ title, value }: { title: string; value: string | number }) {
-//   return (
-//     <div className="rounded-lg border bg-white p-4">
-//       <div className="text-xs text-zinc-500">{title}</div>
-//       <div className="text-2xl font-semibold text-[color:var(--primary)]">{value}</div>
-//     </div>
-//   );
-// }
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
-const TRAINER_ID = localStorage.getItem("trainer_id");
 
 type Summary = {
   kpis: {
@@ -61,6 +35,11 @@ export default function DashboardPage() {
   const [data, setData] = useState<Summary | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [trainerId, setTrainerId] = useState<string | null>(null);
+  
+  useEffect(() => {
+    setTrainerId(localStorage.getItem("trainer_id"));
+  }, []);
 
   async function load() {
     setError(null);
@@ -69,14 +48,14 @@ export default function DashboardPage() {
       setError("NEXT_PUBLIC_API_BASE_URL não configurada.");
       return;
     }
-    if (!TRAINER_ID) {
+    if (!trainerId) {
       setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/dashboard/summary?trainerId=${TRAINER_ID}&days=30`);
+      const res = await fetch(`${API}/api/dashboard/summary?trainerId=${trainerId}&days=30`);
       const json = await res.json().catch(() => null);
 
       if (!res.ok) {
