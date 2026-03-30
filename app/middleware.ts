@@ -29,7 +29,12 @@ export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
 
   const isAuthPage = path.startsWith("/auth");
+  const isCallback = path.startsWith("/auth/callback");
   const isAppPage = path.startsWith("/app");
+
+  if (isCallback) {
+    return res;
+  }
 
   // NÃO LOGADO → só pode acessar /auth
   if (!user && isAppPage) {
