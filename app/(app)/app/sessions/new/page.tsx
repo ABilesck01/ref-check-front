@@ -71,10 +71,10 @@ export default function NewSessionPage() {
     }
   }
 
-  useEffect(() => {
-    loadTrainees();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+useEffect(() => {
+  if (!trainerId) return;
+  loadTrainees();
+}, [trainerId]);
 
   const traineeOptions = useMemo(() => {
     if (loadingTrainees) return [{ value: "", label: "Carregando..." }];

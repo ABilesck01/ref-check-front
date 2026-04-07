@@ -49,7 +49,7 @@ export default function ReportsPage() {
 
     setError(null);
     if (!API) return setError("NEXT_PUBLIC_API_BASE_URL não configurada.");
-    if (!trainerId) return setError("NEXT_PUBLIC_TRAINER_ID não configurada.");
+    if (!trainerId) return;
 
     setLoading(true);
     try {
@@ -69,10 +69,10 @@ export default function ReportsPage() {
     }
   }
 
-  useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [days]);
+useEffect(() => {
+  if (!trainerId) return;
+  load();
+}, [days, trainerId]);
 
   const csvText = useMemo(() => {
     const header = [
