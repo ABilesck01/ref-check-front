@@ -1,54 +1,134 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export default function NewTraineePage() {
-  const router = useRouter();
-  const [trainerId, setTrainerId] = useState<string | null>(null);
+    const router = useRouter();
+    const params = useParams();
+    const refereeId = params.id as string;
+    
+    const [trainerId, setTrainerId] = useState<string | null>(null);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  
-  const [birthDate, setBirthDate] = useState("");
-const [sex, setSex] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    
+    const [birthDate, setBirthDate] = useState("");
+    const [sex, setSex] = useState("");
 
-const [cpf, setCpf] = useState("");
-const [rg, setRg] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [rg, setRg] = useState("");
 
-const [phone, setPhone] = useState("");
-const [city, setCity] = useState("");
-const [state, setState] = useState("");
+    const [phone, setPhone] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
 
-const [federation, setFederation] = useState("");
-const [category, setCategory] = useState("");
-const [mainRole, setMainRole] = useState("");
-const [arbitrationStartDate, setArbitrationStartDate] = useState("");
+    const [federation, setFederation] = useState("");
+    const [category, setCategory] = useState("");
+    const [mainRole, setMainRole] = useState("");
+    const [arbitrationStartDate, setArbitrationStartDate] = useState("");
 
-const [height, setHeight] = useState("");
-const [weight, setWeight] = useState("");
-const [dominantLeg, setDominantLeg] = useState("");
+    const [height, setHeight] = useState("");
+    const [weight, setWeight] = useState("");
+    const [dominantLeg, setDominantLeg] = useState("");
 
-const [hasPhysicalLimitation, setHasPhysicalLimitation] = useState("");
-const [physicalLimitationDescription, setPhysicalLimitationDescription] = useState("");
+    const [hasPhysicalLimitation, setHasPhysicalLimitation] = useState("");
+    const [physicalLimitationDescription, setPhysicalLimitationDescription] = useState("");
 
-const [hasUsedVrBefore, setHasUsedVrBefore] = useState("");
-const [technologyUsageFrequency, setTechnologyUsageFrequency] = useState("");
+    const [hasUsedVrBefore, setHasUsedVrBefore] = useState("");
+    const [technologyUsageFrequency, setTechnologyUsageFrequency] = useState("");
 
-const [trainingGoal, setTrainingGoal] = useState("");
-const [experienceLevel, setExperienceLevel] = useState("");
-const [weeklyAvailability, setWeeklyAvailability] = useState("");
+    const [trainingGoal, setTrainingGoal] = useState("");
+    const [experienceLevel, setExperienceLevel] = useState("");
+    const [weeklyAvailability, setWeeklyAvailability] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-      setTrainerId(localStorage.getItem("trainer_id"));
-    }, []);
+    if (refereeId) {
+        loadReferee();
+    }
+    }, [refereeId]);
 
-  async function onCreate() {
+    async function loadReferee() {
+        try {
+            const res = await fetch(
+            `${API}/api/trainees/${refereeId}`
+            );
+
+            const data = await res.json();
+
+            const p = data.referee_profiles;
+
+            setName(data.name ?? "");
+            setEmail(data.email ?? "");
+
+            setBirthDate(p?.birth_date ?? "");
+            setSex(p?.sex ?? "");
+
+            setCpf(p?.cpf ?? "");
+            setRg(p?.rg ?? "");
+
+            setPhone(p?.phone ?? "");
+
+            setCity(p?.city ?? "");
+            setState(p?.state ?? "");
+
+            setFederation(p?.federation ?? "");
+            setCategory(p?.category ?? "");
+            setMainRole(p?.main_role ?? "");
+
+            setArbitrationStartDate(
+            p?.arbitration_start_date ?? ""
+            );
+
+            setHeight(String(p?.height ?? ""));
+            setWeight(String(p?.weight ?? ""));
+
+            setDominantLeg(
+            p?.dominant_leg ?? ""
+            );
+
+            setHasPhysicalLimitation(
+            p?.has_physical_limitation
+                ? "SIM"
+                : "NAO"
+            );
+
+            setPhysicalLimitationDescription(
+            p?.physical_limitation_description ?? ""
+            );
+
+            setHasUsedVrBefore(
+            p?.has_used_vr_before
+                ? "SIM"
+                : "NAO"
+            );
+
+            setTechnologyUsageFrequency(
+            p?.technology_usage_frequency ?? ""
+            );
+
+            setTrainingGoal(
+            p?.training_goal ?? ""
+            );
+
+            setExperienceLevel(
+            p?.experience_level ?? ""
+            );
+
+            setWeeklyAvailability(
+            p?.weekly_availability ?? ""
+            );
+        } catch (err) {
+            console.error(err);
+        }
+        }
+
+  async function onSave() {
     setError(null);
 
     if (!API) {
@@ -62,8 +142,8 @@ const [weeklyAvailability, setWeeklyAvailability] = useState("");
 
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/trainees`, {
-        method: "POST",
+      const res = await fetch(`${API}/api/trainees/${refereeId}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           createdByTrainerId: trainerId,
@@ -121,7 +201,7 @@ const [weeklyAvailability, setWeeklyAvailability] = useState("");
 
   return (
     <div className="space-y-4 text-zinc-900">
-      <h1 className="text-2xl font-semibold">Novo árbitro</h1>
+      <h1 className="text-2xl font-semibold">Editar árbitro</h1>
 
         <div className="rounded-lg border bg-white p-4 space-y-6">
 
@@ -590,7 +670,7 @@ const [weeklyAvailability, setWeeklyAvailability] = useState("");
         {error ? <div className="text-sm text-red-600">{error}</div> : null}
 
         <button
-          onClick={onCreate}
+          onClick={onSave}
           disabled={loading}
           className="rounded-md bg-black text-white px-4 py-2 disabled:opacity-60"
         >

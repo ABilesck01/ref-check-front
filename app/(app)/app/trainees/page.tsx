@@ -62,14 +62,14 @@ export default function TraineesPage() {
     <div className="space-y-4">
       <div className="flex items-end justify-between">
         <h1 className="text-2xl font-semibold text-[color:var(--neutral)]">
-          Treinados
+          Árbitros
         </h1>
 
         <Link
           href="/app/trainees/new"
           className="rounded-md px-3 py-2 text-sm text-white bg-[color:var(--primary)] hover:opacity-90"
         >
-          Novo treinado
+          Novo árbitro
         </Link>
       </div>
 
@@ -104,7 +104,13 @@ export default function TraineesPage() {
             {!loading &&
               !error &&
               items.map((t) => (
-                <tr key={t.id} className="border-t">
+                <tr
+                  key={t.id}
+                  className="border-t cursor-pointer hover:bg-zinc-50"
+                  onClick={() => {
+                    window.location.href = `/app/trainees/${t.id}`;
+                  }}
+                >
                   <td className="p-3 font-medium text-[color:var(--neutral)]">
                     {t.name}
                   </td>
