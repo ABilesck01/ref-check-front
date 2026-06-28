@@ -1,0 +1,170 @@
+Para o RefCheck, o formulário precisa coletar informações suficientes para identificar o árbitro, personalizar os treinamentos, acompanhar a evolução e permitir análises futuras. Sugiro a seguinte estrutura:
+
+Formulário de Cadastro de Árbitros – RefCheck
+
+1. Dados Pessoais
+
+Nome Completo: ___________________________
+
+Data de Nascimento: ____ / ____ / ______
+
+CPF: ___________________________
+
+RG: ___________________________
+
+Sexo:
+
+- ( ) Masculino
+- ( ) Feminino
+- ( ) Outro
+
+Telefone: ___________________________
+
+E-mail: ___________________________
+
+Cidade: ___________________________
+
+Estado: ___________________________
+
+---
+
+2. Informações Profissionais
+
+Federação / Liga Vinculada: ___________________________
+
+Categoria de Atuação:
+
+- ( ) Amador
+- ( ) Base
+- ( ) Profissional Estadual
+- ( ) Profissional Nacional
+- ( ) Internacional
+
+Função Principal:
+
+- ( ) Árbitro Central
+- ( ) Assistente 1
+- ( ) Assistente 2
+- ( ) Quarto Árbitro
+- ( ) VAR
+- ( ) AVAR
+
+Anos de Experiência: ______
+
+Data de Início na Arbitragem: ____ / ____ / ______
+
+---
+
+3. Dados Físicos
+
+Altura (cm): ______
+
+Peso (kg): ______
+
+Perna Dominante:
+
+- ( ) Direita
+- ( ) Esquerda
+
+Possui alguma limitação física ou lesão atual?
+
+- ( ) Não
+- ( ) Sim
+
+Se sim, descreva:
+
+---
+
+---
+
+4. Experiência Tecnológica
+
+Já utilizou Realidade Virtual anteriormente?
+
+- ( ) Sim
+- ( ) Não
+
+Frequência de uso de tecnologias de treinamento esportivo:
+
+- ( ) Nunca
+- ( ) Raramente
+- ( ) Às vezes
+- ( ) Frequentemente
+
+---
+
+5. Perfil de Treinamento
+
+Objetivo principal dentro do RefCheck:
+
+- ( ) Posicionamento em campo
+- ( ) Tomada de decisão
+- ( ) Leitura de jogo
+- ( ) Treinamento VAR
+- ( ) Comunicação
+- ( ) Desenvolvimento geral
+
+Nível de experiência percebido:
+
+- ( ) Iniciante
+- ( ) Intermediário
+- ( ) Avançado
+- ( ) Elite
+
+Disponibilidade semanal para treinamento:
+
+- ( ) 1 a 2 horas
+- ( ) 3 a 5 horas
+- ( ) 6 a 8 horas
+- ( ) Mais de 8 horas
+
+---
+
+6. Dados para Controle do Sistema
+
+Código Interno do Árbitro: ___________________________
+
+Treinador Responsável: ___________________________
+
+Data de Cadastro: ____ / ____ / ______
+
+Status do Cadastro:
+
+- ( ) Ativo
+- ( ) Inativo
+- ( ) Em Avaliação
+
+---
+
+7. Consentimento
+
+( ) Confirmo que as informações fornecidas são verdadeiras e autorizo sua utilização para fins de treinamento, acompanhamento de desempenho e geração de relatórios dentro da plataforma RefCheck.
+
+Assinatura: ___________________________
+
+Data: ____ / ____ / ______Campos recomendados para uso interno do sistema
+
+Além do formulário visível para o treinador, eu incluiria alguns campos automáticos no banco de dados:
+
+ID único do árbitro
+
+Data do último acesso
+
+Número total de treinamentos realizados
+
+Tempo total em VR
+
+Taxa média de acertos
+
+Score de tomada de decisão
+
+Score de posicionamento
+
+Histórico de avaliações
+
+Certificações obtidas
+
+Ranking interno
+
+
+Esses campos permitirão que o RefCheck gere dashboards de evolução, compare árbitros e ofereça recomendações personalizadas de treinamento.
